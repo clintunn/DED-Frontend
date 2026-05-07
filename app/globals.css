@@ -3,21 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #E0E0E2;
+  --foreground: #22031f;
+  --color-primary: #404e4d;
+  --color-bg: #E0E0E2;
+  --color-accent: #e36588;
+  --color-dark: #22031f;
+  --color-secondary-accent: #772f1a;
+  --color-surface: #f3f3f4;
+  --color-surface-raised: #ffffff;
+  --color-border-subtle: #cec5ca;
+  /* Same as Tailwind theme color "sidebar-rail" */
+  --sidebar-surface: #404E4D;
+  --shadow-soft: 0 10px 40px rgb(34 3 31 / 0.06), 0 2px 8px rgb(34 3 31 / 0.04);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
 }
 
 @layer utilities {
