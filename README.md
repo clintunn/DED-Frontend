@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DED-Frontend
 
-## Getting Started
+Next.js admin UI for DED (package name: `derin-frontend`). After login, organization admins and users can work with events, rules, notifications, activity, and monitoring, and manage team members and invites.
 
-First, run the development server:
+The NestJS API is in [DED-Backend](https://github.com/clintunn/DED-Backend).
+
+## Tech stack
+
+- Next.js 14 (App Router), React 18, TypeScript
+- Tailwind CSS
+- Vitest and Testing Library
+
+## Features
+
+- Email/password login, forgot and reset password, and change password
+- Foundation registration and invite create/accept flows
+- Role-aware sidebar (`ORG_ADMIN` and `USER`): dashboard, team members, invites, security, events, rules, notifications, activity, and monitor
+- Events: list all or "my" events, create, and watch execution
+- Rules: list and create (create is admin-only in the nav)
+- Dashboard metrics, notifications, activity, and a monitor view
+
+Auth and organization APIs go to DED-Backend. The client also has Next.js `/api` route handlers and mock fixtures under `lib/` for some dashboard data.
+
+## Run locally
+
+This repo has a `yarn.lock`. The backend should be running as well (see DED-Backend).
 
 ```bash
-npm run dev
-# or
+yarn install
+cp .env.example .env.local
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). The root route redirects to `/dashboard`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+From `.env.example` and `lib/api.ts` (names only):
 
-## Learn More
+| Variable | Role |
+| --- | --- |
+| `NEXT_PUBLIC_API_BASE_URL` | Backend base URL (preferred) |
+| `NEXT_PUBLIC_API_URL` | Fallback backend base URL |
+| `VITE_API_URL` | Additional fallback backend base URL |
 
-To learn more about Next.js, take a look at the following resources:
+If none of those are set, the backend client defaults to `http://localhost:3000`. For server-side requests to this Next app's own `/api` routes you can also set `NEXT_PUBLIC_APP_URL` or `NEXT_PUBLIC_APP_ORIGIN` (`VERCEL_URL` is used automatically on Vercel).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Other scripts: `yarn dev:bind` binds `0.0.0.0:3000`; `yarn test` runs Vitest; `yarn build` / `yarn start` for production mode.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
+```
+app/                 # App Router pages (auth, admin dashboard, events, rules, etc.)
+components/          # UI for auth, dashboard, events, rules, monitoring, and invites
+lib/api.ts           # Backend and local API client
+lib/auth.ts          # Session helpers
+types/               # Shared TypeScript types
+tests/               # Vitest component and API client tests
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by Clinton Nkamigbo · https://clinton-nkamigbo.vercel.app
